@@ -5,7 +5,7 @@ const tokenSign = async (user) => {
     const sign = jwt.sign(
       {
         id: user.id,
-        role: user.role,
+        // role: user.role,
       },
       process.env.JWT_SECRET,
       {
