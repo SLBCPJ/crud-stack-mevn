@@ -12,7 +12,10 @@ const createItem = async (req, res) => {
 };
 const getItems = async (req, res) => {
   try {
+    //ver cual usuario esta haciendo la peticion
+    // const user = req.user
     const data = await Product.find();
+    // res.json({data, user});
     res.json(data);
   } catch (error) {
     handleHttpError(res, "ERROR_GET_ITEMS");

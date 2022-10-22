@@ -8,10 +8,12 @@ const {
   updateItem,
 } = require("../controllers/product.controller");
 const { validatorCreate, validatorUpdate } = require("../validators/product");
-router.post("/create-product", validatorCreate, createItem);
-router.get("/products", getItems);
+const auth = require("../middlewares/session");
+const rol = require("../middlewares/rol");
+router.post("/", auth, rol(['admin']), validatorCreate, createItem);
+router.get("/products", auth, getItems);
 router.get("/:id", getItem);
-router.delete("/:id", deleteItem);
-router.put("/:id", validatorUpdate, updateItem );
+router.delete("/:id", auth, rol(['admin']), deleteItem);
+router.put("/:id", validatorUpdate, updateItem);
 
 module.exports = router;
