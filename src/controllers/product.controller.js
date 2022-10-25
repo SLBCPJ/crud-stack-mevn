@@ -14,17 +14,17 @@ const getItems = async (req, res) => {
   try {
     //ver cual usuario esta haciendo la peticion
     // const user = req.user
-    const data = await Product.find();
+    const data = await Product.find({});
     // res.json({data, user});
     res.json(data);
   } catch (error) {
     handleHttpError(res, "ERROR_GET_ITEMS");
   }
 };
-const getItem = async (req, res) => {
+const getItem = async ({params}, res) => {
   try {
-    const _id = req.params.id;
-    const data = await Product.findOne(_id);
+    const _id = params.id;
+    const data = await Product.findOne({_id});
     res.json(data);
   } catch (error) {
     handleHttpError(res, "ERROR_GET_ITEM");
@@ -37,7 +37,7 @@ const updateItem = async (req, res) => {
     const data = await Product.findByIdAndUpdate(_id, body, {
       new: true,
     });
-    res.json(data);
+    res.json({data});
   } catch (error) {
     handleHttpError(res, "ERROR_UPDATE_ITEM");
   }
@@ -47,8 +47,8 @@ const deleteItem = async (req, res) => {
     const _id = req.params.id;
     const data = await Product.findByIdAndDelete(_id);
     if (!data) {
-      return res.status(400).json({
-        mensaje: "No se encontró el id indicado",
+      return res.status(404).json({
+        message: "ID_NOT_FOUND",
       });
     }
     res.send(data);
